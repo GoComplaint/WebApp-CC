@@ -1,2 +1,2 @@
-# chat-web-app
-Chatting Application with Dashboard System for Admin
+# GoComplaint Admin Dashboard
+GoComplaint admin dashboard created with CodeIgniter 3
