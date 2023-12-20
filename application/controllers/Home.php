@@ -17,12 +17,12 @@ class Home extends CI_Controller {
 		$data['user']='Made Asthito';
 
 		// API
-		$api_url = "http://localhost:5000/api/";
+		$api_url = "https://backend-dot-go-complaint.et.r.appspot.com/api/";
 		$api_resource = "";
 		$api_params = '';
 
 		// COMPLAINT ANALYSIS
-		$api_resource = "main/analysis?year=2023";
+		$api_resource = "main/analysis?year=".$data['year'];
 		$data_analysis = json_decode(file_get_contents($api_url.$api_resource.$api_params));
 		$data['tot_open']=$data_analysis->tot_open;
 		$data['tot_on_working']=$data_analysis->tot_on_working;
