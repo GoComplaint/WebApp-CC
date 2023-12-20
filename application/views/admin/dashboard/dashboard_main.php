@@ -100,7 +100,7 @@
                     <td><?=$data->complaint?></td>
                     <td><?=$data->category?></td>
                     <td><?=$data->location?></td>
-                    <td><?=@$data->prediction > 50?"<b class='primary'>Urgent</b>":"Not Urgent"?></td>
+                    <td><?=@$data->prediction > 50?"<b class='primary'>Urgent ($data->prediction%)</b>":"Not Urgent ($data->prediction%)"?></td>
                     <td>
                         <?php
                             if($data->status=='P'){ ?>
