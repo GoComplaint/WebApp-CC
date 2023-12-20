@@ -16,6 +16,9 @@
 	--color-dark-variant: #677483;
 	--color-background: #f6f6f9;
 
+	--color-icon-text: var(--color-white);
+	--color-bg-hover: var(--color-white);
+
 	--card-border-radius: 2rem;
 	--border-radius-1: 0.4rem;
 	--border-radius-2: 1.2rem;
@@ -388,7 +391,10 @@ main .data-table:hover {
 
 .bg-open {
 	background-color: var(--color-background);
-	color: var(--color-dark) !important;
+	--color-icon-text: var(--color-dark);
+	
+	--color-icon-hover: var(--color-background);
+	--color-bg-hover: var(--color-dark);
 }
 
 .bg-working {
@@ -402,8 +408,12 @@ main .data-table:hover {
 }
 
 .bg-closed {
-	background-color: var(--color-danger);
-	--color-icon-hover: var(--color-danger);
+	background-color: var(--color-background);
+	--color-icon-text: var(--color-danger);
+	
+	--color-icon-hover: var(--color-background);
+	--color-bg-hover: var(--color-danger);
+
 }
 
 .data-status {
@@ -417,7 +427,7 @@ main .data-table:hover {
 .data-icon {
 	padding: 0.5rem 1rem;
 	border-radius: 0.4rem;
-	color: var(--color-white);
+	color: var(--color-icon-text);
 	cursor: pointer;
 	transition: color 0.3s ease, background-color 0.3s ease;
 	font-weight: 550;
@@ -425,7 +435,7 @@ main .data-table:hover {
 
 .data-icon:hover {
 	color: var(--color-icon-hover);
-	background-color: var(--color-white);
+	background-color: var(--color-bg-hover);
 }
 
 /* ---------- Right Section ---------- */
@@ -512,6 +522,7 @@ main .data-table:hover {
 
 .right-section .tot-complaint {
 	margin-top: 1rem;
+	cursor: pointer;
 }
 
 .right-section .tot-complaint .header {

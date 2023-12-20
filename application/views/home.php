@@ -33,14 +33,14 @@
     <!-- Home Resource -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/style.css">
     
-    <title>Responsive Chat Admin</title>
+    <title>GoComplaint Admin Dashboard</title>
 </head>
 <body>
     <div class="container">
-
         <!-- Sidebar Section -->
         <?php $this->load->view("./main/side_bar")?>
         <!-- End of Sidebar Section -->
+
         
         <!-- Main Section -->
         <?php $this->load->view($page)?>

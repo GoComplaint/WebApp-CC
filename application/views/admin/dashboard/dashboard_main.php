@@ -91,27 +91,29 @@
                 </tr>
             </thead>
             <tbody>
+                <?php 
+            if($data_complaint){
+                $i=1; foreach ($data_complaint->complaints as $data) { ?>
                 <tr>
-                    <td>1</td>
-                    <td>Cahyadi Yoga</td>
-                    <td>Aduh ternyata di jalan raya deket rumah saya banyak berlubang</td>
-                    <td>INFRASTRUKTUR</td>
-                    <td>Jl Baru</td>
-                    <td>Urgent</td>
+                    <td><?=$i?></td>
+                    <td><?=$data->username?></td>
+                    <td><?=$data->complaint?></td>
+                    <td><?=$data->category?></td>
+                    <td><?=$data->location?></td>
+                    <td><?=@$data->prediction > 50?"<b class='primary'>Urgent</b>":"Not Urgent"?></td>
                     <td>
                         <?php
-                            $data = 'P';
-                            if($data=='P'){ ?>
+                            if($data->status=='P'){ ?>
                                 <b class="warning">
                                     On Working
                                 </b>
                         <?php
-                            }else if($data=='Y'){ ?>
+                            }else if($data->status=='Y'){ ?>
                                 <b class="success">
                                     Success
                                 </b>
                         <?php
-                            }else if($data=='N'){ ?>
+                            }else if($data->status=='N'){ ?>
                                 <b class="danger">
                                     Closed
                                 </b>
@@ -124,25 +126,33 @@
                             }
                         ?>
                     </td>
-                    <td>2023-12-12</td>
+                    <td><?=date('Y-m-d', strtotime($data->createdAt))?></td>
                     <td>
                         <?php
-                            if($data=='O'){ ?>
+                            if($data->status=='O'){ ?>
                                 <button class="data-icon bg-working" onclick="window.location" title="Progressing Complaint">
                                 <i class="fa-solid fa-spinner"></i>
                                 </button>
                         <?php
-                            }else if($data=='P'){ ?>
+                            }else if($data->status=='P'){ ?>
                                 <button class="data-icon bg-success" onclick="window.location" title="Success Complaint">
                                 <i class="fa-solid fa-check"></i>
                                 </button>
                         <?php
+                            }else if($data->status=='N'){?>
+                                <button class="data-icon bg-open" onclick="window.location" title="Open Complaint">
+                                <i class="fa-regular fa-folder-open"></i>
+                                </button>
+                        <?php
                             }?>
-                        <button class="data-icon bg-closed" onclick="window.location" title="Closed Complaint">
+                        <button class="data-icon bg-closed" <?=$data->status=='N'?'style="display:none"':''?> onclick="window.location" title="Closed Complaint">
                             <i class="fas fa-xmark "></i>
                         </button>
                     </td>
                 </tr>
+                <?php   
+                }
+            }?>
             </tbody>
         </table>
     </div>

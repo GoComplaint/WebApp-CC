@@ -57,7 +57,7 @@
             <div class="content">
                 <div class="info">
                     <h2>All Complaint </h2>
-                    <h3>133 Complaint</h3>
+                    <b><?=$tot_complaint?> Complaint</b>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             <div class="content">
                 <div class="info">
                     <h2>Urgent </h2>
-                    <h3 class="danger">133 Complaint</h3>
+                    <b class="primary"><?=$tot_urgent?> Complaint</b>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <div class="content">
                 <div class="info">
                     <h2>Not Urgent </h2>
-                    <h3 class="text-muted">121 Complaint</h3>
+                    <b class="text-muted"><?=$tot_not_urgent?> Complaint</b>
                 </div>
             </div>
         </div>

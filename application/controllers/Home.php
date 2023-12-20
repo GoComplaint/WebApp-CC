@@ -16,47 +16,59 @@ class Home extends CI_Controller {
 
 		$data['user']='Made Asthito';
 
+		// API
+		$api_url = "http://localhost:5000/api/";
+		$api_resource = "";
+		$api_params = '';
+
 		// COMPLAINT ANALYSIS
-		// TODO : INTEGRATE TO BACKEND
-		$data['tot_open']="1000";
-		$data['tot_on_working']="2000";
-		$data['tot_success']="3000";
+		$api_resource = "main/analysis?year=2023";
+		$data_analysis = json_decode(file_get_contents($api_url.$api_resource.$api_params));
+		$data['tot_open']=$data_analysis->tot_open;
+		$data['tot_on_working']=$data_analysis->tot_on_working;
+		$data['tot_success']=$data_analysis->tot_success;
+		$data['tot_closed']=$data_analysis->tot_closed;
+
+		// TOTAL COMPLAINT
+		$data['tot_complaint']=$data_analysis->tot_complaint;
+		$data['tot_urgent']=$data_analysis->tot_urgent;
+		$data['tot_not_urgent']=$data_analysis->tot_not_urgent;
 
 		// GET DATA
-		$data_complaint = 'TODO: GET DATA';
+		$api_resource = "main/complaints/?";
 
 		// Filter 
 		$status = $this->input->get("status");
 		if($status) {
+			$api_resource = "main/search?";
+			
 			// -> Status
 			if(strtoupper($status) == 'O') {
-				$data_complaint = 'TODO: GET DATA OPEN';
+				$api_params = 'status=O';
 			}else if(strtoupper($status) == 'P') {
-				$data_complaint = 'TODO: GET DATA PENDING';
+				$api_params = 'status=P';
 			}else if(strtoupper($status) == 'Y') {
-				$data_complaint = 'TODO: GET DATA SUCCESS';
+				$api_params = 'status=Y';
 			}else if(strtoupper($status) == 'N') {
-				$data_complaint = 'TODO: GET DATA DANGER';
+				$api_params = 'status=N';
 			}
 		}
 		$filter = $this->input->get("filter");
 		// -> Filter
 		if($filter) {
+			$api_resource = "main/search?";
 			// -> Status
 			if(strtoupper($filter) == 'URGENT') {
-				$data_complaint = 'TODO: GET DATA URGENT';
+				$api_params = 'prediction=URGENT';
 			}else if(strtoupper($filter) == 'NOT_URGENT') {
-				$data_complaint = 'TODO: GET DATA NOT_URGENT';
+				$api_params = 'prediction=NOT_URGENT';
 			}
 		}
 
+		$data['api_params'] = $api_url.$api_resource.$api_params;
+		$data['analysis'] = $data_analysis;
+		$data_complaint = json_decode(file_get_contents($api_url.$api_resource.$api_params));
 		$data['data_complaint'] = $data_complaint;
-
-		// TOTAL COMPLAINT
-		// TODO : INTEGRATE TO BACKEND
-		$data['tot_closed']="2000";
-		$data['tot_urgent']="1000";
-		$data['tot_not_urgent']="2000";
 
 
 		$this->load->view('home', $data); 
