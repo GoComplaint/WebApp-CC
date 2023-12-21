@@ -130,31 +130,97 @@
                     <td>
                         <?php
                             if($data->status=='O'){ ?>
-                                <button class="data-icon bg-working" onclick="window.location" title="Progressing Complaint">
+                                <button class="data-icon bg-working" onclick="setStatus(<?=$data->id?>, 'P')" title="Progressing Complaint">
                                 <i class="fa-solid fa-spinner"></i>
                                 </button>
                         <?php
                             }else if($data->status=='P'){ ?>
-                                <button class="data-icon bg-success" onclick="window.location" title="Success Complaint">
+                                <button class="data-icon bg-success" onclick="setStatus(<?=$data->id?>, 'Y')" title="Success Complaint">
                                 <i class="fa-solid fa-check"></i>
                                 </button>
                         <?php
                             }else if($data->status=='N'){?>
-                                <button class="data-icon bg-open" onclick="window.location" title="Open Complaint">
+                                <button class="data-icon bg-open" onclick="setStatus(<?=$data->id?>, 'O')" title="Open Complaint">
                                 <i class="fa-regular fa-folder-open"></i>
                                 </button>
                         <?php
                             }?>
-                        <button class="data-icon bg-closed" <?=$data->status=='N'?'style="display:none"':''?> onclick="window.location" title="Closed Complaint">
+                        <button class="data-icon bg-closed" <?=$data->status=='N'?'style="display:none"':''?> onclick="setStatus(<?=$data->id?>, 'N')" title="Closed Complaint">
                             <i class="fas fa-xmark "></i>
                         </button>
                     </td>
                 </tr>
                 <?php   
-                }
+                $i++; }
             }?>
             </tbody>
         </table>
     </div>
     <!-- End of Data Complaint Table Section -->
 </main>
+
+<script type="text/javascript">
+    function setStatus(id, status){
+        let status_msg;
+        const data_post = JSON.stringify({ "id": id, "status": status});
+        console.log(data_post);
+
+        if(status.toUpperCase() == 'O'){
+            status_msg = 'Open';
+        }else if(status.toUpperCase() == 'P'){
+            status_msg = 'On Working';
+        }else if(status.toUpperCase() == 'Y'){
+            status_msg = 'Success';
+        }else if(status.toUpperCase() == 'N'){
+            status_msg = 'Closed';
+        }
+
+        Swal.fire({
+            title: 'Set Status',
+            text: "Confirm set status to " + status_msg + "?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#14a44d',
+            cancelButtonColor: '#dc4c64',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Confirm'
+        }).then((result) => {
+            if(result.isConfirmed) {
+                $.ajax({
+                    type:'PUT',
+                    async:false,
+                    url:"<?=$this->config->item('api_url')?>/main/status",
+                    data:data_post,
+                    contentType:'application/json',       
+                    processData:false,  
+                    cache:false,
+                    dataType:'json',
+                    success:function(data){
+                        console.log(data);
+                        Swal.fire({
+                                icon: 'success',
+                                title: 'Set Status',
+                                text: 'Status successfully been set!',
+                                confirmButtonColor: '#14a44d',
+                                confirmButtonText: 'OK',
+                                timer: 2000
+                            }).then(
+                                function () {
+                                    location.reload();
+                            });
+                    },error: function(data){
+                        console.log(data);
+                        Swal.fire({
+                                title: 'Error',
+                                text: "There is an error on Server!",
+                                icon: 'error',
+                                confirmButtonColor: '#dc4c64',
+                                confirmButtonText: 'OK',
+                                timer: 2000
+                        });
+                    }
+                })
+            }
+        })
+    }
+</script>
