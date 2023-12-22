@@ -21,7 +21,7 @@
             </span>
             <h3>Dashboard</h3>
         </a>
-        <a href="#">
+        <a href="<?=base_url()?>Login/logout">
             <span class="material-icons-sharp">
                 logout
             </span>

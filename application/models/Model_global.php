@@ -21,4 +21,18 @@ class Model_global extends CI_Model
         return $kode_url;
     }
 
+    public function postCURL($_url, $_data){
+        $ch = curl_init($_url);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $_data);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
+
+        $output=curl_exec($ch);
+
+        curl_close($ch);
+
+        return $output;
+    }
+
 }

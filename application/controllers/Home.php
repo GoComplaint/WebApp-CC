@@ -2,7 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
-	
+	public function __construct(){
+		parent::__construct();
+
+		if(!$this->Model_auth->current_user()){
+			redirect('Login/auth');
+		}
+	}
+
 	public function index()
 	{		
 		$data['page']='./dashboard/dashboard_main';
@@ -10,7 +17,7 @@ class Home extends CI_Controller {
 		$data['current_page']='dashboard';
 		$data['year']=date("Y");
 
-		$data['user']='Made Asthito';
+		$data['user']=$this->session->userdata['username'];
 
 		// API
 		$api_url = $this->config->item('api_url');
@@ -65,7 +72,6 @@ class Home extends CI_Controller {
 		$data['analysis'] = $data_analysis;
 		$data_complaint = json_decode(file_get_contents($api_url.$api_resource.$api_params));
 		$data['data_complaint'] = $data_complaint;
-
 
 		$this->load->view('home', $data); 
 	}

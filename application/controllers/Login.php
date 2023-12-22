@@ -19,32 +19,24 @@ class Login extends CI_Controller {
 			return $this->load->view('./auth/login');
 		}
 
-		$username = $this->input->post('username');
-		$is_secure = $this->Model_auth->sanitize_trim_numchar($username);
-
+		$email = $this->input->post('email');
 		$password = $this->input->post('password');
-		if($is_secure == 1){
-			$is_secure = $this->Model_auth->sanitize_trim_numchar($password);
-		}
 		
-		$role = 'ADMIN';
+        $data['email'] = $email;
+        $data['password'] = $password;
+		
+        if($this->Model_auth->login($email, $password)){
+            redirect('Home');
+        }else{
+            $data['STATUS'] = 'invalid';
+        }
 
-		if($is_secure != 1){
-			$data['STATUS'] = 'invalid';
-		}else{
-			if($this->Model_auth->login($username, $password, $role)){
-				redirect('Home');
-			}else{
-				$data['STATUS'] = 'invalid';
-			}
-		}
-
-		$this->load->view('login', $data);
+		$this->load->view('./auth/login', $data);
 	}
 
 	public function logout()
 	{
 		$this->Model_auth->logout();
-		redirect(site_url());
+		redirect('Login/auth');
 	}
 }

@@ -3,15 +3,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_auth extends CI_Model
 {
-	private $_table = "m_user";
 	const SESSION_KEY = 'user_id';
 
 	public function rules()
 	{
 		return [
 			[
-				'field' => 'username',
-				'label' => 'Username or Email',
+				'field' => 'email',
+				'label' => 'Email',
 				'rules' => 'required'
 			],
 			[
@@ -22,76 +21,48 @@ class Model_auth extends CI_Model
 		];
 	}
 
-	public function login($username, $password, $role)
+	public function login($email, $password)
 	{
-		$query = $this->db->query("SELECT * FROM m_user WHERE ACTIVE_FLAG = 'Y' AND ROLE = '$role' AND (EMAIL = '$username' OR USERNAME = '$username')");
-		$user = $query->row();
+		$api_post = $this->config->item('api_url')."/auth/login";
+		$data_payload = json_encode(array(
+            'email' => $email,
+            'password' => $password
+        ));
+
+		$data_res = json_decode($this->Model_global->postCURL($api_post, $data_payload));
 
 		// cek apakah user sudah terdaftar?
-		if (!$user) {
-			return FALSE;
-		}
-
-		// cek apakah passwordnya benar?
-		if (!password_verify($password, $user->PASSWORD)) {
+		if (!$data_res || $data_res->user->role != 'admin') {
 			return FALSE;
 		}
 
 		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->USER_ID, 'role' => $user->ROLE]);
-		$this->_update_last_login($user->USER_ID);
+		$this->session->set_userdata([self::SESSION_KEY => $data_res->id, 'username' => $data_res->user->username, 'access_token' => $data_res->access_token, 'refresh_token' => $data_res->refresh_token]);
 
 		return $this->session->has_userdata(self::SESSION_KEY);
 	}
 
-	public function loginClient($username, $password, $role)
-	{
-		$query = $this->db->query("SELECT * FROM m_user WHERE ACTIVE_FLAG = 'Y' AND ROLE = '$role' AND (EMAIL = '$username' OR USERNAME = '$username')");
-		$user = $query->row();
-		$this->load->library('encryption');
-
-		// cek apakah user sudah terdaftar?
-		if (!$user) {
-			return FALSE;
-		}
-
-		// cek apakah passwordnya benar?
-		$user->PASSWORD = $this->encryption->decrypt($user->PASSWORD);
-		if ($password != $user->PASSWORD) {
-			return FALSE;
-		}
-
-		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->USER_ID, 'role' => $user->ROLE, 'ID_USER'=> $user->USER_ID]);
-		$this->_update_last_login($user->USER_ID);
-
-		return $this->session->has_userdata(self::SESSION_KEY);
-	}
-
-	public function current_user($role)
+	public function current_user()
 	{
 		if (!$this->session->has_userdata(self::SESSION_KEY)) {
 			return null;
 		}
-
-		$user_id = $this->session->userdata(self::SESSION_KEY);
-		$query = $this->db->get_where($this->_table, ['USER_ID' => $user_id, 'ROLE' => $role]);
-		return $query->row();
+		return TRUE;
 	}
 
 	public function logout()
 	{
+
+		// Call API Logout
+		$api_post = $this->config->item('api_url')."/auth/logoutAll";
+		$data_payload = json_encode(array(
+            'refresh_token' => $this->session->userdata['refresh_token'],
+        ));
+		$data_res = $this->Model_global->postCURL($api_post, $data_payload);
+
+		
 		$this->session->unset_userdata(self::SESSION_KEY);
 		return !$this->session->has_userdata(self::SESSION_KEY);
-	}
-
-	private function _update_last_login($id)
-	{
-		$data = [
-			'LAST_LOGIN' => date("Y-m-d H:i:s"),
-		];
-
-		return $this->db->update($this->_table, $data, ['USER_ID' => $id]);
 	}
 
 	public function sanitize_trim_numchar($value){

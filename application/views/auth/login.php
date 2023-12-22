@@ -45,21 +45,34 @@
                     Admin <span class="success">Login</span>
             </h1>
             <div class="body">
-                <form method="POST">
+                <form method="POST" action="http://localhost/gocomplaint-frontend/Login/auth">
                     <div class="form-input flex-start flex-colomn">
-                        <label for="email"><b>Email</b></label>
-                        <input type="email" id="email">
+                        <label for="email"><b>Email <?=@$email?></b> (admin@gmail.com)</label>
+                        <input type="email" id="email" name="email">
                     </div>
 
                     <div class="form-input flex-start flex-colomn margin-y-1">
-                        <label for="password"><b>Password</b></label>
-                        <input type="password" id="password">
+                        <label for="password"><b>Password <?=@$password?> <?=@$this->session->userdata['user_id']?></b> (admin) </label>
+                        <input type="password" id="password" name="password">
                     </div>
 
-                    <button class="form-btn margin-y-1">Login</button>
+                    <button class="form-btn margin-y-1" type="submit">Login</button>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        $(function(){
+            const status = '<?=@$STATUS?>';
+            if(status == 'invalid'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Your Email / Password is invalid!',
+                    confirmButtonColor: '#dc3545',
+                })
+            };
+        })
+    </script>
 </body>
 </html>
