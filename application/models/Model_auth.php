@@ -37,7 +37,7 @@ class Model_auth extends CI_Model
 		}
 
 		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $data_res->id, 'username' => $data_res->user->username, 'access_token' => $data_res->access_token, 'refresh_token' => $data_res->refresh_token]);
+		$this->session->set_userdata([self::SESSION_KEY => $data_res->id, 'username' => $data_res->user->username, 'accessToken' => $data_res->access_token, 'refreshToken' => $data_res->refresh_token]);
 
 		return $this->session->has_userdata(self::SESSION_KEY);
 	}

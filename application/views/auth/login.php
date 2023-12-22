@@ -45,7 +45,7 @@
                     Admin <span class="success">Login</span>
             </h1>
             <div class="body">
-                <form method="POST" action="http://localhost/gocomplaint-frontend/Login/auth">
+                <form method="POST" action="<?=base_url()?>Login/auth">
                     <div class="form-input flex-start flex-colomn">
                         <label for="email"><b>Email <?=@$email?></b> (admin@gmail.com)</label>
                         <input type="email" id="email" name="email">

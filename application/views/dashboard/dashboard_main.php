@@ -101,9 +101,7 @@
                     <td>
                         <?=$data->complaint?> 
                         <br> 
-                        <a class="link-file" href="<?=$data->file?>" target="_blank">
-                            See files
-                        </a>
+                        <?=$data->file?'<a class="link-file" href="<?=$data->file?>" target="_blank">See files</a>':''?>
                     </td>
                     <td><?=$data->category?></td>
                     <td><?=$data->location?></td>

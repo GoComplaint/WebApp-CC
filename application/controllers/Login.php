@@ -16,7 +16,7 @@ class Login extends CI_Controller {
 		$this->form_validation->set_rules($rules);
 
 		if($this->form_validation->run() == FALSE){
-			return $this->load->view('./auth/login');
+			return $this->load->view('auth/login');
 		}
 
 		$email = $this->input->post('email');
@@ -26,12 +26,12 @@ class Login extends CI_Controller {
         $data['password'] = $password;
 		
         if($this->Model_auth->login($email, $password)){
-            redirect('Home');
+            redirect('');
         }else{
             $data['STATUS'] = 'invalid';
         }
 
-		$this->load->view('./auth/login', $data);
+		$this->load->view('auth/login', $data);
 	}
 
 	public function logout()
