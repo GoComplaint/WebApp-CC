@@ -2,6 +2,7 @@
     $(function () {
         $("#dataviews").DataTable({ 
             "autoWidth": true,
+            "responsive": true,
             "pagingType": "numbers",
             "lengthChange": false
         });
@@ -76,7 +77,7 @@
     <div class="data-table">
         <!-- Note: Could be automaticly generate based on data in database -->
         <h2>Latest Complaint</h2>
-        <table id="dataviews" class="stripe" style="width:100%">
+        <table id="dataviews" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th>No</th>
@@ -97,7 +98,13 @@
                 <tr>
                     <td><?=$i?></td>
                     <td><?=$data->username?></td>
-                    <td><?=$data->complaint?></td>
+                    <td>
+                        <?=$data->complaint?> 
+                        <br> 
+                        <a class="link-file" href="<?=$data->file?>" target="_blank">
+                            See files
+                        </a>
+                    </td>
                     <td><?=$data->category?></td>
                     <td><?=$data->location?></td>
                     <td><?=@$data->prediction > 50?"<b class='primary'>Urgent ($data->prediction%)</b>":"Not Urgent ($data->prediction%)"?></td>

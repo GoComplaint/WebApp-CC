@@ -24,34 +24,42 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Data Table -->
     <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-
-    
     
     
     <!-- Home Resource -->
-    <link rel="stylesheet" href="<?=base_url()?>assets/css/style.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
     
     <title>GoComplaint Admin Dashboard</title>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar Section -->
-        <?php $this->load->view("./main/side_bar")?>
-        <!-- End of Sidebar Section -->
+    <div class="container flex-center flex-colomn">
+        <div class="top-card logo flex-center flex-colomn">
+            <img src="https://storage.googleapis.com/go-complaint-bucket/assets/logo.svg" alt="">
+            <h1 class="header white">
+                <span class="light-green">Go</span>Complaint
+            </h1>
+        </div>
+        <div class="card flex-center flex-colomn ">
+            <h1 class="header margin-y-1 primary">
+                    Admin <span class="success">Login</span>
+            </h1>
+            <div class="body">
+                <form method="POST">
+                    <div class="form-input flex-start flex-colomn">
+                        <label for="email"><b>Email</b></label>
+                        <input type="email" id="email">
+                    </div>
 
-        
-        <!-- Main Section -->
-        <?php $this->load->view($page)?>
-        <!-- End of Main Content -->
+                    <div class="form-input flex-start flex-colomn margin-y-1">
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" id="password">
+                    </div>
 
-        <!-- Right Section -->
-        <?php $this->load->view("./main/right_section")?>
-        <!-- End of Right Section -->
+                    <button class="form-btn margin-y-1">Login</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <script src="<?=base_url()?>assets/js/home-admin.js"></script>
 </body>
 </html>

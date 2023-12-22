@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 	
 	public function index()
 	{		
-		$data['page']='./admin/dashboard/dashboard_main';
+		$data['page']='./dashboard/dashboard_main';
 		$data['title']='Dashboard';
 		$data['current_page']='dashboard';
 		$data['year']=date("Y");
